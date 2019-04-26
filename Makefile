@@ -62,6 +62,19 @@ init:
 
 import:
 	python rxadherence/importer.py --type drug --file "$(DB_DIR)/$(DRUGS_FILE)"
+	python rxadherence/importer.py --type user --username "Bob"
+	python rxadherence/importer.py --type user --username "Mary"
+	python rxadherence/importer.py --type user --username "John"
+	python rxadherence/importer.py --type user --username "Jane"
+	python rxadherence/importer.py --type usage --username "Jane" --drug-id 1
+	python rxadherence/importer.py --type usage --username "Jane" --drug-id 1
+	python rxadherence/importer.py --type usage --username "Bob" --drug-id 1
+	python rxadherence/importer.py --type usage --username "Bob" --drug-id 1
+	python rxadherence/importer.py --type usage --username "John" --drug-id 2
+	python rxadherence/importer.py --type usage --username "John" --drug-id 2
+	python rxadherence/importer.py --type usage --username "Mary" --drug-id 3
+	python rxadherence/importer.py --type usage --username "Mary" --drug-id 3
+	python rxadherence/importer.py --type usage --username "Mary" --drug-id 3
 
 USERNAME:=
 import-user:
