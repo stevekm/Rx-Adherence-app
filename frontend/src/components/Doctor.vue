@@ -19,7 +19,7 @@
         }
         },
         mounted() {
-            axios.get("https://1eea6d14-23e6-4fc9-ba35-57f8f24e261d.mock.pstmn.io/users/").then(response => this.users=response.data.users)
+            axios.get("http://127.0.0.1:8000/users/").then(response => this.users=Object.values(response.data))
         }
     }
 </script>
