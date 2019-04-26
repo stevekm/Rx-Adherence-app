@@ -22,10 +22,10 @@ def users(request, username = None):
     """
     """
     if username == None:
-        data = [{'name': item.username} for item in all_users]
+        data = { item.id : item.username for item in all_users}
     else:
         queryset = User.objects.filter(username = username)
-        data = [{'name': item.username} for item in queryset]
+        data = { item.id : item.username for item in queryset}
     response = JsonResponse(data, safe = False)
     return(response)
 
