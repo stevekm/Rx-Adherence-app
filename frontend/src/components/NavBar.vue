@@ -3,9 +3,7 @@
         <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
-                    <stong>
-                    Rx-Adherence
-                        </stong>
+                    <p><strong>Rx-Adherence</strong></p>
                 </a>
 
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -21,8 +19,11 @@
 <!--                        Home-->
 <!--                    </a>-->
 
+<!--                    <a class="navbar-item has-text-secondary">-->
+<!--                        Doctor-->
+<!--                    </a>-->
 <!--                    <a class="navbar-item">-->
-<!--                        Documentation-->
+<!--                        Patient-->
 <!--                    </a>-->
 
 <!--                    <div class="navbar-item has-dropdown is-hoverable">-->
@@ -48,26 +49,29 @@
 <!--                    </div>-->
 <!--                </div>-->
 
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <div class="buttons">
-                            <a class="button is-primary">
-                                <strong>Sign up</strong>
-                            </a>
-                            <a class="button is-light">
-                                Log in
-                            </a>
-                        </div>
-                    </div>
-                </div>
+<!--                <div class="navbar-end">-->
+<!--                    <div class="navbar-item">-->
+<!--                        <div class="buttons">-->
+<!--                            <button class="button is-small is-white">-->
+<!--                                Sign up-->
+<!--                            </button>-->
+<!--                            <LoginModal/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
             </div>
         </nav>
     </div>
 </template>
 
 <script>
+    import LoginModal from "./LoginModal";
+
     export default {
-        name: "navbar"
+        name: "NavBar",
+        components: {
+            LoginModal
+        }
     }
 </script>
 
