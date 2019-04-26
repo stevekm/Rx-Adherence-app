@@ -1,2 +1,4 @@
 conda/
 *.pyc
+*.sqlite3
+*.pid

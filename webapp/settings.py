@@ -14,6 +14,18 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_DIR = os.path.realpath(os.environ.get(
+    'DB_DIR', # try to get dir from environment
+    os.path.join(BASE_DIR, 'db') # fallback to db/ in project dir
+    ))
+DJANGO_DB = os.path.join(DB_DIR, os.environ.get('DJANGO_DB', 'db.sqlite3'))
+RXADHERENCE_DB = os.path.join(DB_DIR, os.environ.get('RXADHERENCE_DB', 'rxadherence.sqlite3'))
+LOG_DIR = os.path.realpath(os.environ.get('LOG_DIR', 'logs'))
+# save process ID to file
+PID_FILE = os.path.join(LOG_DIR, 'Rx-Adherence-app.pid')
+PID = os.getpid()
+with open(PID_FILE, "w") as f:
+    f.write(str(PID) + '\n')
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rxadherence'
 ]
 
 MIDDLEWARE = [
@@ -76,10 +89,15 @@ WSGI_APPLICATION = 'webapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'NAME': DJANGO_DB, # os.path.join(BASE_DIR, 'db.sqlite3'),
+    },
+    'rxadherence_db': {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': RXADHERENCE_DB,
+    },
 }
 
+DATABASE_ROUTERS = ['rxadherence.routers.Router']
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

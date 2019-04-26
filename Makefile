@@ -38,8 +38,47 @@ conda-install: conda
 
 # ~~~~~ SETUP DJANGO APP ~~~~~ #
 export DJANGO_DB:=django.sqlite3
-export DASHBOARD_DB:=dashboard.sqlite3
+export RXADHERENCE_DB:=rxadherence.sqlite3
+
 # create the app for development; only need to run this when first creating repo
 # django-start:
 # 	django-admin startproject webapp .
 # 	python manage.py startapp rxadherence
+
+init:
+	python manage.py makemigrations
+	python manage.py migrate
+	python manage.py migrate rxadherence
+	python manage.py migrate rxadherence --database=rxadherence_db
+	python manage.py createsuperuser
+
+# run the Django dev server
+runserver:
+	python manage.py runserver
+
+# start interactive shell
+shell:
+	python manage.py shell
+
+# run arbitrary user-passed command
+CMD:=
+cmd:
+	$(CMD)
+
+# ~~~~~ RESET ~~~~~ #
+# re-initialize just the databases
+reinit: nuke
+	python manage.py makemigrations
+	python manage.py migrate
+	python manage.py migrate rxadherence --database=rxadherence_db
+
+# destroy app database
+nuke:
+	@echo ">>> Removing database items:"; \
+	rm -rfv rxadherence/migrations/__pycache__ && \
+	rm -fv rxadherence/migrations/0*.py && \
+	rm -fv "$$(python -c 'import os; print(os.path.join("$(DB_DIR)", "$(INTERPRETER_DB)"))')"
+
+# delete the main Django database as well..
+nuke-all: nuke
+	rm -fv "$$(python -c 'import os; print(os.path.join("$(DB_DIR)", "$(DJANGO_DB)"))')"
