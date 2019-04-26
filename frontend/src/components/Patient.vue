@@ -43,25 +43,35 @@
             }
         },
         mounted() {
-            axios.get("https://1eea6d14-23e6-4fc9-ba35-57f8f24e261d.mock.pstmn.io/users/").then(response => this.users=response.data.users);
+
+            axios.get("http://127.0.0.1:8000/users/").then(response => this.users=Object.values(response.data));
+            axios.get("http://127.0.0.1:8000/drugs/").then(response => this.drugs=Object.values(response.data));
             // axios.get("https://1eea6d14-23e6-4fc9-ba35-57f8f24e261d.mock.pstmn.io/drugs/").then(response => this.drugs=response.data.drugs.values);
         },
         computed: {
             filteredDataArray() {
-                return this.users.filter((option) => {
-                    return option
-                        .toString()
-                        .toLowerCase()
-                        .indexOf(this.name.toLowerCase()) >= 0
-                })
+                if (this.users.length > 0) {
+                    return this.users.filter((option) => {
+                        return option
+                            .toString()
+                            .toLowerCase()
+                            .indexOf(this.name.toLowerCase()) >= 0
+                    })
+                } else {
+                    return []
+                }
             },
             filteredDrugDataArray() {
-                return this.drugs.filter((option) => {
-                    return option
-                        .toString()
-                        .toLowerCase()
-                        .indexOf(this.drug.toLowerCase()) >= 0
-                })
+                if (this.drugs.length > 0) {
+                    return this.drugs.filter((option) => {
+                        return option
+                            .toString()
+                            .toLowerCase()
+                            .indexOf(this.drug.toLowerCase()) >= 0
+                    })
+                } else {
+                    return []
+                }
             }
         }
     }
@@ -70,3 +80,7 @@
 <style scoped>
 
 </style>
+
+module.exports = {
+devServer: {proxy: 'http://localhost:3000'}
+}
