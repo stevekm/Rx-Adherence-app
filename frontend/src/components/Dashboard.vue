@@ -38,7 +38,7 @@
         },
         data: function() {
             return {
-                whichPage: "About"
+                whichPage: "Patient"
             }
         },
         methods: {

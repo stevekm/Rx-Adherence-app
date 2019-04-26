@@ -17,6 +17,9 @@ def drugs(request, id = None):
         queryset = Drug.objects.filter(id = id)
         data = { item.id : item.name for item in queryset}
     response = JsonResponse(data, safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     return(response)
 
 @csrf_exempt
@@ -29,6 +32,9 @@ def users(request, username = None):
         queryset = User.objects.filter(username = username)
         data = { item.id : item.username for item in queryset}
     response = JsonResponse(data, safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     return(response)
 
 @csrf_exempt
@@ -58,6 +64,9 @@ def usages(request, username = None, drug_id = None):
             }
             data.append(d)
     response = JsonResponse(data, safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Methods"] = "GET, OPTIONS"
+    response["Access-Control-Allow-Headers"] = "X-Requested-With, Content-Type"
     return(response)
 
 @csrf_exempt
