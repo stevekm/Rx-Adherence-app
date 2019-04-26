@@ -32,11 +32,12 @@ conda:
 # install the conda and python packages required
 # NOTE: **MUST** install ncurses from conda-forge for RabbitMQ to work!!
 conda-install: conda
-	conda install -y -c anaconda \
+	conda install -y -c anaconda -c conda-forge  \
 	python=3.6 \
 	django=2.1.5 \
 	gunicorn=19.9.0 \
-	nginx=1.15.5
+	nginx=1.15.5 \
+	nodejs=10.13.0
 	# && \
 	# pip install \
 	# djangorestframework==3.9.2 \
@@ -121,6 +122,21 @@ nuke:
 # delete the main Django database as well..
 nuke-all: nuke
 	rm -fv "$$(python -c 'import os; print(os.path.join("$(DB_DIR)", "$(DJANGO_DB)"))')"
+
+
+
+frontend-install:
+	cd frontend && \
+	npm install
+
+frontend-run:
+	cd frontend && \
+	npm run serve
+
+
+
+
+
 
 
 # ~~~~~ NGINX and GUNICORN ~~~~~ #
