@@ -47,22 +47,11 @@ def import_usage(username, drug_id):
     """
     user_instance = User.objects.get(username = username)
     drug_instance = Drug.objects.get(id = int(drug_id))
-    # print(user_instance, drug_instance)
-    # print(Usage)
-    # instance, created = Usage.objects.get_or_create(
-    #     username = user_instance,
-    #     drug = drug_instance
-    #     )
     Usage.objects.create(
         username = user_instance,
         drug = drug_instance
         )
     print("Successfully created usage of {0} for {1}".format(drug_instance, user_instance))
-    # if created:
-    #     print("Successfully created usage of {0} for {1}".format(drug_instance, user_instance))
-    # else:
-    #     print("ERROR: Could not create usage of {0} for {1}".format(drug_instance, user_instance))
-
 
 def main(**kwargs):
     """
