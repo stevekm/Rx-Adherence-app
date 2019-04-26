@@ -34,7 +34,9 @@ conda:
 conda-install: conda
 	conda install -y -c anaconda \
 	python=3.6 \
-	django=2.1.5
+	django=2.1.5 \
+	gunicorn=19.9.0 \
+	nginx=1.15.5
 	# && \
 	# pip install \
 	# djangorestframework==3.9.2 \
@@ -59,6 +61,7 @@ init:
 	python manage.py migrate rxadherence
 	python manage.py migrate rxadherence --database=rxadherence_db
 	python manage.py createsuperuser
+	python manage.py collectstatic
 
 import:
 	python rxadherence/importer.py --type drug --file "$(DB_DIR)/$(DRUGS_FILE)"
@@ -118,3 +121,53 @@ nuke:
 # delete the main Django database as well..
 nuke-all: nuke
 	rm -fv "$$(python -c 'import os; print(os.path.join("$(DB_DIR)", "$(DJANGO_DB)"))')"
+
+
+# ~~~~~ NGINX and GUNICORN ~~~~~ #
+SOCKET:=unix:$(CURDIR)/Rx-Adherence-app.sock
+NGINX_PREFIX:=$(CURDIR)
+NGINX_CONF:=nginx.conf
+# nginx-conf:
+nginx-start:
+	nginx -p "$(NGINX_PREFIX)" -c "$(NGINX_CONF)"
+
+nginx-stop:
+	nginx -p "$(NGINX_PREFIX)" -c "$(NGINX_CONF)" -s quit
+
+nginx-reload:
+	nginx -p "$(NGINX_PREFIX)" -c "$(NGINX_CONF)" -s reload
+
+nginx-test:
+	nginx -p "$(NGINX_PREFIX)"  -c "$(NGINX_CONF)" -t
+
+nginx-check:
+	ps -ax | grep nginx
+
+
+
+# gunicorn config stored separately
+GUNICORN_NAME:=gunicorn-Rx-Adherence
+GUNICORN_CONFIG:=gunicorn_config.py
+GUNICORN_PIDFILE:=$(LOG_DIR)/gunicorn.pid
+GUNICORN_ACCESS_LOG:=$(LOG_DIR)/gunicorn.access.log
+GUNICORN_ERROR_LOG:=$(LOG_DIR)/gunicorn.error.log
+GUNICORN_LOG:=$(LOG_DIR)/gunicorn.log
+gunicorn-start:
+	gunicorn webapp.wsgi \
+	--bind "$(SOCKET)" \
+	--config "$(GUNICORN_CONFIG)" \
+	--pid "$(GUNICORN_PIDFILE)" \
+	--access-logfile "$(GUNICORN_ACCESS_LOG)" \
+	--error-logfile "$(GUNICORN_ERROR_LOG)" \
+	--log-file "$(GUNICORN_LOG)" \
+	--name "$(GUNICORN_NAME)"
+	# \
+	# --daemon
+
+gunicorn-check:
+	ps -ax | grep gunicorn
+
+GUNICORN_PID:=
+gunicorn-stop: GUNICORN_PID=$(shell head -1 $(GUNICORN_PIDFILE))
+gunicorn-stop: $(GUNICORN_PIDFILE)
+	kill "$(GUNICORN_PID)"
