@@ -7,6 +7,7 @@ all_drugs = Drug.objects.all()
 all_users = User.objects.all()
 all_usages = Usage.objects.all()
 
+@csrf_exempt
 def drugs(request, id = None):
     """
     """
@@ -18,6 +19,7 @@ def drugs(request, id = None):
     response = JsonResponse(data, safe = False)
     return(response)
 
+@csrf_exempt
 def users(request, username = None):
     """
     """
@@ -29,6 +31,7 @@ def users(request, username = None):
     response = JsonResponse(data, safe = False)
     return(response)
 
+@csrf_exempt
 def usages(request, username = None, drug_id = None):
     """
     """
@@ -57,6 +60,7 @@ def usages(request, username = None, drug_id = None):
     response = JsonResponse(data, safe = False)
     return(response)
 
+@csrf_exempt
 def use(request, username, drug_id):
     """
     """
