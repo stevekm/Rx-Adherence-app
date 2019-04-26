@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from rest_framework import routers, serializers, viewsets
 from rxadherence.models import Drug, User, Usage
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
