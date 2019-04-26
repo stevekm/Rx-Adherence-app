@@ -37,9 +37,12 @@ conda-install: conda
 	django=2.1.5
 
 # ~~~~~ SETUP DJANGO APP ~~~~~ #
+# dir with db files for dev
+export DB_DIR:=db
+# filenames inside db dir
 export DJANGO_DB:=django.sqlite3
 export RXADHERENCE_DB:=rxadherence.sqlite3
-
+export DRUGS_FILE:=drugs.csv
 # create the app for development; only need to run this when first creating repo
 # django-start:
 # 	django-admin startproject webapp .
@@ -51,6 +54,13 @@ init:
 	python manage.py migrate rxadherence
 	python manage.py migrate rxadherence --database=rxadherence_db
 	python manage.py createsuperuser
+
+import:
+	python rxadherence/importer.py --type drug --file "$(DB_DIR)/$(DRUGS_FILE)"
+
+
+
+
 
 # run the Django dev server
 runserver:
@@ -77,7 +87,7 @@ nuke:
 	@echo ">>> Removing database items:"; \
 	rm -rfv rxadherence/migrations/__pycache__ && \
 	rm -fv rxadherence/migrations/0*.py && \
-	rm -fv "$$(python -c 'import os; print(os.path.join("$(DB_DIR)", "$(INTERPRETER_DB)"))')"
+	rm -fv "$$(python -c 'import os; print(os.path.join("$(DB_DIR)", "$(RXADHERENCE_DB)"))')"
 
 # delete the main Django database as well..
 nuke-all: nuke
