@@ -66,6 +66,8 @@ MIDDLEWARE = [
 MIDDLEWARE_CLASSES = (
 'webapp.cors.CorsMiddleware',
 )
+CORS_ORIGIN_ALLOW_ALL = True
+
 ROOT_URLCONF = 'webapp.urls'
 
 TEMPLATES = [
