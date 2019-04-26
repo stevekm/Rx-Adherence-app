@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import routers, serializers, viewsets
-from rxadherence.models import Drug, User
+from rxadherence.models import Drug, User, Usage
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
@@ -11,13 +11,10 @@ def drugs(request, id = None):
     """
     """
     if id == None:
-        data = [{'name': item.name} for item in all_drugs]
+        data = { item.id : item.name for item in all_drugs}
     else:
-        print(id)
         queryset = Drug.objects.filter(id = id)
-        print(queryset)
-        data = [{'name': item.name} for item in queryset]
-        print(data)
+        data = { item.id : item.name for item in queryset}
     response = JsonResponse(data, safe = False)
     return(response)
 
@@ -31,3 +28,5 @@ def users(request, username = None):
         data = [{'name': item.username} for item in queryset]
     response = JsonResponse(data, safe = False)
     return(response)
+
+# def usage(request, username, drug)
