@@ -15,6 +15,7 @@ Install dependencies
 
 ```
 make conda-install
+make frontend-install
 ```
 
 Initialize app databases
@@ -33,6 +34,12 @@ Run local Django server
 
 ```
 make runserver
+```
+
+Start Vue.js server
+
+```
+make frontend-run
 ```
 
 Example `curl` request to API:
