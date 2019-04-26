@@ -34,11 +34,12 @@ conda:
 conda-install: conda
 	conda install -y -c anaconda \
 	python=3.6 \
-	django=2.1.5 && \
-	pip install \
-	djangorestframework==3.9.2 \
-	markdown==3.1 \
-	django-filter==2.1.0
+	django=2.1.5
+	# && \
+	# pip install \
+	# djangorestframework==3.9.2 \
+	# markdown==3.1 \
+	# django-filter==2.1.0
 
 # ~~~~~ SETUP DJANGO APP ~~~~~ #
 # dir with db files for dev
