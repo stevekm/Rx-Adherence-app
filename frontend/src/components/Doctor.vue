@@ -19,7 +19,7 @@
         }
         },
         mounted() {
-            axios.get("http://127.0.0.1:8000/users/").then(response => this.users=Object.values(response.data))
+            axios.get("http://127.0.0.1:8000/usages/").then(response => this.users=Object.values(response.data))
         }
     }
 </script>

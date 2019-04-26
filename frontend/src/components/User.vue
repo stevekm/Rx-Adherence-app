@@ -26,7 +26,7 @@
         name: "User",
         data() {
             return {
-                isOpen: true
+                isOpen: false
             }
         },
         props: {
