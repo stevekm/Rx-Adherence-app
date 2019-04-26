@@ -15,6 +15,7 @@ sys.path.insert(0, parentdir)
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "webapp.settings")
 django.setup()
 from rxadherence.models import Drug
+from rxadherence.models import User
 sys.path.pop(0)
 
 def import_drugs(import_file):
@@ -33,17 +34,26 @@ def import_drugs(import_file):
                 all_created.append(instance)
     print("Read {0} entries, imported {1} entries.".format(num_entries, len(all_created)))
 
+def import_user(username):
+    instance, created = User.objects.get_or_create(username = username)
+    if created:
+        print("Successfully created user: {0}".format(username))
+    else:
+        print("ERROR: could not create user: {0}".format(username))
+
+
 def main(**kwargs):
     """
     Main control function for the module.
     """
     import_type = kwargs.pop('import_type', None)
     import_file = kwargs.pop('import_file', None)
-
-    print(os.getcwd())
+    username = kwargs.pop('username', None)
 
     if import_type == "drug":
         import_drugs(import_file)
+    if import_type == "user":
+        import_user(username)
 
 def parse():
     """
@@ -57,6 +67,9 @@ def parse():
     parser.add_argument("--file",
         dest = 'import_file',
         help="File to import from")
+    parser.add_argument("--username",
+        dest = 'username',
+        help="Username to import")
     args = parser.parse_args()
     main(**vars(args))
 

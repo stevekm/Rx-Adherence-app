@@ -58,6 +58,9 @@ init:
 import:
 	python rxadherence/importer.py --type drug --file "$(DB_DIR)/$(DRUGS_FILE)"
 
+USERNAME:=
+import-user:
+	if [ -n "$(USERNAME)" ]; then python rxadherence/importer.py --type user --username "$(USERNAME)"; fi
 
 
 
