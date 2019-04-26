@@ -57,6 +57,14 @@ def usages(request, username = None, drug_id = None):
             data.append(d)
     response = JsonResponse(data, safe = False)
     return(response)
-        # data = { item.id : {item.username.username} for item in all_usages}
 
-# def usage(request, username, drug)
+def use(request, username, drug_id):
+    """
+    """
+    user_instance = User.objects.get(username = username)
+    drug_instance = Drug.objects.get(id = int(drug_id))
+    Usage.objects.create(
+        username = user_instance,
+        drug = drug_instance
+        )
+    return(HttpResponse('Success'))
