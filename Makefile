@@ -34,7 +34,11 @@ conda:
 conda-install: conda
 	conda install -y -c anaconda \
 	python=3.6 \
-	django=2.1.5
+	django=2.1.5 && \
+	pip install \
+	djangorestframework==3.9.2 \
+	markdown==3.1 \
+	django-filter==2.1.0
 
 # ~~~~~ SETUP DJANGO APP ~~~~~ #
 # dir with db files for dev
@@ -62,8 +66,13 @@ USERNAME:=
 import-user:
 	if [ -n "$(USERNAME)" ]; then python rxadherence/importer.py --type user --username "$(USERNAME)"; fi
 
-
-
+# need runserver running for this
+# demo query of API
+# [{"url":"http://localhost:8000/users/1/","username":"steve","email":"","is_staff":true}]
+get-users:
+	curl localhost:8000/users/
+get-drugs:
+	curl localhost:8000/drugs/
 
 # run the Django dev server
 runserver:
