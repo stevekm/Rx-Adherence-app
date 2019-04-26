@@ -24,14 +24,19 @@
                 <template slot="empty">No results found</template>
             </b-autocomplete>
         </b-field>
+       <Table :name="name" :drugId="lookup[drug]"/>
     </section>
 </template>
 
 <script>
     import axios from "axios";
+    import Table from "./Table";
 
     export default {
         name: "Patient",
+        components: {
+            Table
+        },
         data: function(){
             return {
                 users: [],
@@ -39,13 +44,24 @@
                 name: '',
                 drug: '',
                 drugSelected: null,
-                selected: null
+                selected: null,
+                lookup: {}
+
             }
         },
-        mounted() {
+        beforeCreate() {
 
             axios.get("http://127.0.0.1:8000/users/").then(response => this.users=Object.values(response.data));
-            axios.get("http://127.0.0.1:8000/drugs/").then(response => this.drugs=Object.values(response.data));
+            axios.get("http://127.0.0.1:8000/drugs/").then(response => {
+                this.drugs=Object.values(response.data);
+                const ret = {};
+                Object.keys(response.data).forEach((key) => {
+                    ret[response.data[key]] = key;
+                });
+                this.lookup = ret;
+                }
+
+            );
             // axios.get("https://1eea6d14-23e6-4fc9-ba35-57f8f24e261d.mock.pstmn.io/drugs/").then(response => this.drugs=response.data.drugs.values);
         },
         computed: {
