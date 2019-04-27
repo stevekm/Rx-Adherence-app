@@ -2,6 +2,9 @@
 
 App to help patients track their adherence to prescription drug usage protocols, and allow for doctors to recieve this information.
 
+<img width="960" alt="Screen Shot 2019-04-26 at 6 44 22 PM" src="https://user-images.githubusercontent.com/10505524/56853474-95718880-68f6-11e9-8673-f7428e640d97.png">
+
+
 ## Local Installation
 
 Clone this repo
